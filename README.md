@@ -1,5 +1,18 @@
 # Django Tempus Dominus
 
+This is a fork of django-tempus-dominus that fixes the following bugs:
+* Date fields that use the DatePicker widget that are initialised with data are not rendered correctly if a custom date input format is in use.
+* Time fields that use the TimePicker widget that are initialised with data do not display the preset time value.
+* Date fields that use the DatePicker widget that are initialised with data do not display the preset time value.
+
+This version correctly renders all dates and times, but you must make sure that any entries in Django's settings file for DATE_INPUT_FORMATS, TIME_INPUT_FORMATS and DATETIME_INPUT_FORMATS are compatible with any format options that you set for the  widget format.
+
+The widget render() code has also been updated to be compatible with Django 2.1 which passes in a renderer parameter.
+
+The original documentation follows below.
+
+# Django Tempus Dominus
+
 Django Tempus Dominus provides Django widgets for the [Tempus Dominus Bootstrap 4 DateTime](https://tempusdominus.github.io/bootstrap-4/ "Tempus Dominus") date and time picker. Why yet another date and time picker for Django? None supported the Tempus Dominus date and time picker, which is actively developed and feature rich. It is a successor to the popular `bootstrap-datetimepicker` JavaScript library.
 
 ## Installation
