@@ -60,3 +60,9 @@ bower_components/
 # Coverage
 htmlcov/
 .coverage
+
+# pytest files
+.pytest_cache/
+
+venv/
+.cache/

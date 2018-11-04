@@ -22,17 +22,30 @@ Django Tempus Dominus provides Django widgets for the [Tempus Dominus Bootstrap 
 * From source:
 
 ```python
-git clone git+https://github.com/FlipperPA/django-tempus-dominus.git
+git clone https://github.com/FlipperPA/django-tempus-dominus.git
 pip install -e django-tempus-dominus
 ```
 
-## Usage
+Add `tempus_dominus` to `INSTALLED_APPS` in your Django settings.
+
+## Usage & Settings
+
+The following settings are available:
+
+* `TEMPUS_DOMINUS_LOCALIZE` (default: `False`): if `True`, widgets will be translated to the selected browser language and use the localized date and time formats.
+* `TEMPUS_DOMINUS_INCLUDE_ASSETS` (default: `True`): if `True`, loads Tempus Dominus and `moment` JS and CSS from Cloudflare's CDN, otherwise loading the JS and CSS are up to you.
 
 Three widgets are provided:
 
-* `DatePicker`, which defaults to `YYYY-MM-DD`
-* `DateTimePicker`, which defaults to `YYYY-MM-DD HH:mm:ss`
-* `TimePicker`, which defaults to `HH:mm:ss`
+* `DatePicker`
+    * Defaults to `YYYY-MM-DD`
+    * Defaults to `L` if `TEMPUS_DOMINUS_LOCALIZE` is `True`
+* `DateTimePicker`
+    * Defaults to `YYYY-MM-DD HH:mm:ss`
+    * Defaults to `L LTS` if `TEMPUS_DOMINUS_LOCALIZE` is `True`
+* `TimePicker`
+    * Defaults to `HH:mm:ss`
+    * Defaults to `LTS` if `TEMPUS_DOMINUS_LOCALIZE` is `True`
 
 In your Django form, you can use the widgets like this:
 
@@ -43,7 +56,8 @@ from django import forms
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 
 class MyForm(forms.Form):
-    date_field = forms.DateField(
+    date_field = forms.DateField(widget=DatePicker())
+    date_field_required_with_min_max_date = forms.DateField(
         required=True,
         widget=DatePicker(
             options={
@@ -76,21 +90,41 @@ Then in your template, include jQuery, `{{ form.media }}`, and render the form:
 
 ```HTML+Django
 <html>
-    <head>
-        <script crossorigin="anonymous" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        {{ form.media }}
-    </head>
-<body>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-    </form>
-</body>
+  <head>
+    {# Include FontAwesome; required for icon display #}
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    {# Include Bootstrap 4 and jQuery #}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    {# Django Tempus Dominus assets are included in `{{ form.media }}` #}
+    {{ form.media }}
+  </head>
+  
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.as_p }}
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
 ```
 
 ## Change Log
 
+* 5.0.1.5: Fix to ensure options are passed in proper JSON.
+* 5.0.1.4: Include template in the MANIFEST.in file.
+* 5.0.1.3: Add setting to exclude CDN CSS and JS assets. Add initial test suite.
+* 5.0.1.2: Documentation clean up.
+* 5.0.1.1: Option to l10n and i18n to all pickers.
+* 5.0.1.0: Upgrade to Tempus Dominus full release version `5.0.1`. Fix bug for populating initial values (thank you, @ianastewart).
 * 0.1.2: UX enhancement: auto-dismiss dialog if the input loses focus.
 * 0.1.1: Bug fixes.
 * 0.1.0: Initial release.
@@ -99,6 +133,18 @@ Then in your template, include jQuery, `{{ form.media }}`, and render the form:
 
 * Timothy Allen (https://github.com/FlipperPA)
 
-### Contributors (Thank You!)
+### Contributors & DjangoCon US Sprinters (Thank You!)
 
+* Bryan Collazo (https://github.com/bcollazo)
+* Donna St. Louis (https://github.com/dcstlouis)
+* Ian Stewart (https://github.com/ianastewart)
+* Jake Bell (https://github.com/theunraveler)
+* John Carroll (https://github.com/johnnyporkchops)
+* Katherine Dey (https://github.com/deyspring)
+* Kenneth Love (https://github.com/kennethlove)
+* Kevan Swanberg (https://github.com/kevswanberg)
+* Ryan Sullivan (https://github.com/rgs258)
+* Stéphane "Twidi" Angel (https://github.com/twidi)
+* Tiffany Huang (https://github.com/tiff8433)
+* Václav 'ax' Hůla (https://github.com/AxTheB)
 * waymou (https://github.com/waymao)
