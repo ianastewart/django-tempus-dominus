@@ -13,7 +13,7 @@ class MinMaxDateFieldForm(forms.Form):
         options={
             'minDate': '2009-01-20',
             'maxDate': '2017-01-20',
-        }
+        },
     ))
 
 
@@ -25,3 +25,11 @@ class TimeFieldForm(forms.Form):
 class DateTimeFieldForm(forms.Form):
     """Test form for DateTimePicker widget."""
     datetime_field = forms.DateTimeField(widget=DateTimePicker)
+
+
+class DateFieldDisabled(forms.Form):
+    date_field_dis= forms.DateField(widget=TimePicker, disabled=True)
+
+
+class DateFieldNotRequired(forms.Form):
+    date_field_not_req = forms.DateField(widget=TimePicker, required=False)

@@ -19,7 +19,7 @@ def test_forms_render(form_class):
     assert form_class().as_p()
 
 
-def test_render_moment_unlocalized(settings):
+def test_render_moment_unlocalized():
     form = forms.DateTimeFieldForm()
     widget = form.fields['datetime_field'].widget
     assert isinstance(
@@ -39,6 +39,18 @@ def test_datetime_form_localization(settings):
         widgets.DateTimePicker
     )
     assert widget.js_options == {'format': 'L LTS'}
+
+
+def test_disabled():
+    form = forms.DateFieldDisabled()
+    output = form.as_p()
+    assert 'disabled' in output
+
+
+def test_not_required():
+    form = forms.DateFieldNotRequired()
+    output = form.as_p()
+    assert 'required' not in output
 
 
 def test_form_media():
